@@ -1,8 +1,13 @@
-describe('pos', function () {
-    var allItems, inputs, dateDigitToString;
+var printInventory = require('../src/main');
+var load = require('./fixtures');
 
-    beforeEach(function () {
-        allItems = loadAllItems();
+describe('pos', function () {
+
+    it('should print correct text', function () {
+
+        var allItems, inputs, dateDigitToString;
+
+        allItems = load.loadAllItems();
         inputs = [
             'ITEM000001',
             'ITEM000001',
@@ -14,16 +19,10 @@ describe('pos', function () {
             'ITEM000005',
             'ITEM000005'
         ];
+
         dateDigitToString = function (num) {
             return num < 10 ? '0' + num : num;
         };
-    });
-
-    it('should print correct text', function () {
-
-        spyOn(console, 'log');
-
-        printInventory(inputs);
 
         var currentDate = new Date(),
             year = dateDigitToString(currentDate.getFullYear()),
@@ -33,6 +32,8 @@ describe('pos', function () {
             minute = dateDigitToString(currentDate.getMinutes()),
             second = dateDigitToString(currentDate.getSeconds()),
             formattedDateString = year + '年' + month + '月' + date + '日 ' + hour + ':' + minute + ':' + second;
+
+        var result = printInventory(inputs);
 
         var expectText =
             '***<没钱赚商店>购物清单***\n' +
@@ -50,6 +51,6 @@ describe('pos', function () {
             '节省：7.50(元)\n' +
             '**********************';
 
-        expect(console.log).toHaveBeenCalledWith(expectText);
+        expect(result).toEqual(expectText);
     });
 });
