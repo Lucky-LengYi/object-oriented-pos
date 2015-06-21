@@ -1,3 +1,4 @@
+var _ = require('../src/my_lodash');
 var Item = require('../src/model/item');
 
 function loadAllItems() {
@@ -19,7 +20,11 @@ function loadPromotions() {
             'ITEM000000',
             'ITEM000001',
             'ITEM000005'
-        ])
+            ],
+            function buy_two_get_one_free(object) {
+                
+            }
+        )
     ];
 }
 
