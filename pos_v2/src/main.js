@@ -12,7 +12,7 @@ function printInventory(collection) {
     });
     var pos = new Pos();
     pos.setllement(cart.conclusion);
-
+    pos.print_the_list();
     return pos.settlement_list;
 }
     // var group_to_sum = get_group_to_sum(collection);
