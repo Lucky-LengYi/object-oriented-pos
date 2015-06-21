@@ -8,25 +8,23 @@ function Tools() {
 
         var hh = now.getHours();
         var mm = now.getMinutes();
-
+        var dd = now.getSeconds();
         var clock = year + "年";
-
         if(month < 10)
             clock += "0";
-
         clock += month + "月";
-
         if(day < 10)
             clock += "0";
-
         clock += day + "日 ";
-
         if(hh < 10)
             clock += "0";
 
         clock += hh + ":";
         if (mm < 10) clock += '0';
-        clock += mm;
+        clock += mm + ":";
+        if (dd < 10) clock += '0';
+        clock += dd;
+
         return clock;
     };
 }
