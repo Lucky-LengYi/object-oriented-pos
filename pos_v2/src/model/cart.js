@@ -1,4 +1,3 @@
-var _ = require('../my_lodash');
 function Cart() {
     this.conclusion = {};
     this.group_by_barcode = function (item) {

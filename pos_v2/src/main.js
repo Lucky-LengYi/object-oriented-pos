@@ -1,14 +1,20 @@
 var load = require('../spec/fixtures');
 var Scanner = require('./model/scanner');
 var Cart = require('./model/cart');
+var _ = require('./my_lodash');
+var Pos = require('./model/pos');
+
 
 function printInventory(collection) {
     var scanner = new Scanner();
     var cart = new Cart();
-    each(collection,function (tag,i) {
+    _.each(collection,function (tag,i) {
         cart.group_by_barcode(scanner.calculate_count(tag));
     });
-    return cart.conclusion;
+    var pos = new Pos();
+    pos.setllement(cart.conclusion);
+
+    return pos.settlement_list;
 }
     // var group_to_sum = get_group_to_sum(collection);
     // console.log(group_to_sum);
@@ -26,6 +32,7 @@ function printInventory(collection) {
     //     }
     // });
     // return get_pos(shopping_cart,gift_item);
+
 function get_pos(shopping_cart,gift_item) {
     var result = '***<没钱赚商店>购物清单***\n';
     result += "打印时间：";
@@ -88,13 +95,6 @@ function Gift_item(name,count,unit) {
     this.count = count;
     this.unit = unit;
 }
-function Item(barcode,name, count, unit, price) {
-    this.barcode = barcode;
-    this.name = name;
-    this.count = count;
-    this.unit = unit;
-    this.price = price || 0.00;
-}
 
 function get_one_item(value,key) {
     var result;
@@ -106,33 +106,7 @@ function get_one_item(value,key) {
     });
     return result;
 }
-function get_group_to_sum(collection) {
-    var result;
-    result = _(collection).group(function (item,i) {
-        return item.split("-")[0];
-    }).value();
-    each(result,function (item,i) {
-        result[i] = _(item).map(function (item_a,i) {
-            return parseInt(item_a.split("-")[1]) || 1;
-        }).value();
-    });
-    each(result,function (item,i) {
-        result[i] = sum(item);
-    });
 
-    return result;
-}
-function each(collection,func) {
-    if (Array.isArray(collection)) {
-        for (var i = 0; i < collection.length; i++) {
-            func(collection[i],i);
-        }
-    }else {
-        for (var x in collection) {
-            func(collection[x],x);
-        }
-    }
-}
 function time() {
     var date = new Date();
     var seperator2 = ":";
@@ -154,70 +128,4 @@ function time() {
     return currentdate;
 }
 
-function reduce(collection,func) {
-    var temp;
-    each(collection,function (item,i) {
-        if (i === 0) {
-            temp = item;
-        }else{
-            temp = func(temp,item);
-        }
-    });
-}
-
-function sum(collection) {
-    var result;
-    if (collection.length === 1) {
-        result = collection[0];
-    }else {
-        reduce(collection,function (num_a,num_b) {
-            result = num_a + num_b;
-            return result;
-        });
-    }
-    return result;
-}
-
-function _(collection) {
-    if(!(this instanceof _)) {
-        return new _(collection);
-    }
-    this.collection = collection;
-}
-
-_.prototype = {
-    each: function (func) {
-        each(this.collection,func);
-    },
-    filter: function (func) {
-        var result = [];
-        this.each(function (item,i) {
-            if (func(item,i)) {
-                result.push(item);
-            }
-        });
-        this.collection = result;
-        return this;
-    },
-    map: function (func) {
-        var result = [];
-        this.each(function (item,i) {
-            result.push(func(item,i));
-        });
-        this.collection = result;
-        return this;
-    },
-    group: function (func) {
-        var result = {};
-        this.each(function (item,i) {
-            result[func(item,i)] = result[func(item,i)] || [];
-            result[func(item,i)].push(item);
-        });
-        this.collection = result;
-        return this;
-    },
-    value: function () {
-        return this.collection;
-    }
-};
 module.exports = printInventory;

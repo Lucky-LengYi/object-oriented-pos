@@ -21,8 +21,25 @@ function loadPromotions() {
             'ITEM000001',
             'ITEM000005'
             ],
-            function buy_two_get_one_free(object) {
-                
+            function (collection) {
+                var result = [];
+                var promotions = loadPromotions();
+                barcodes = promotions[0].barcodes;
+                _.each(collection,function (item,i) {
+                    _.each(barcodes,function (element,x) {
+                        if (item.barcode === element) {
+                            result.push(
+                                {
+                                    name:item.name,
+                                    count:Math.floor(item.count / 3),
+                                    unit:item.unit
+                                }
+                            );
+                            collection[i].sum_price = (item.count - Math.floor(item.count / 3)) * item.price;
+                        }
+                    });
+                });
+                return result;
             }
         )
     ];
