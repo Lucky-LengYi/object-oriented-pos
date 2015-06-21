@@ -4,7 +4,6 @@ var Cart = require('./model/cart');
 var _ = require('./my_lodash');
 var Pos = require('./model/pos');
 
-
 function printInventory(collection) {
     var scanner = new Scanner();
     var cart = new Cart();
@@ -67,45 +66,7 @@ function get_pos(shopping_cart,gift_item) {
 
     return result;
 }
-function get_gift_item(object) {
-    var promotions = $.loadPromotions();
-    var result;
-    each(promotions[0].barcodes,function (value,key) {
-        if (object.barcode === value) {
-            result = new Gift_item(object.name,Math.floor(object.count / 3),object.unit);
-        }
-    });
-    return result;
-}
-function calculate_sum_price(object) {
-    var sum_price;
-    var promotions = $.loadPromotions();
-    each(promotions[0].barcodes,function (value,key) {
-        if (object.barcode === value) {
-            sum_price = (object.count - Math.floor(object.count / 3)) * object.price;
-        }
-    });
-    if (sum_price === undefined) {
-        sum_price = object.count * object.price;
-    }
-    return sum_price;
-}
-function Gift_item(name,count,unit) {
-    this.name = name;
-    this.count = count;
-    this.unit = unit;
-}
 
-function get_one_item(value,key) {
-    var result;
-    var all_item = $.loadAllItems();
-    each(all_item,function (value_a,key_a) {
-        if (key === value_a.barcode) {
-            result = new Item(value_a.barcode,value_a.name,value,value_a.unit,value_a.price);
-        }
-    });
-    return result;
-}
 
 function time() {
     var date = new Date();
