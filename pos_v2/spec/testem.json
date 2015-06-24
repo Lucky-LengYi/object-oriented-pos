@@ -1,8 +1,0 @@
-{
-    "launchers": {
-        "jasmine": {
-            "command": "jasmine-node ./*-spec.js"
-        }
-    },
-    "launch_in_dev": ["jasmine"]
-}

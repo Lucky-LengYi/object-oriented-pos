@@ -1,31 +1,18 @@
-function Tools() {
-    this.format_time = function () {
-        var now = new Date();
+var Tools = {};
 
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDate();
-
-        var hh = now.getHours();
-        var mm = now.getMinutes();
-        var dd = now.getSeconds();
-        var clock = year + "年";
-        if(month < 10)
-            clock += "0";
-        clock += month + "月";
-        if(day < 10)
-            clock += "0";
-        clock += day + "日 ";
-        if(hh < 10)
-            clock += "0";
-
-        clock += hh + ":";
-        if (mm < 10) clock += '0';
-        clock += mm + ":";
-        if (dd < 10) clock += '0';
-        clock += dd;
-
-        return clock;
+Tools.format_time = function () {
+    dateDigitToString = function (num) {
+        return num < 10 ? '0' + num : num;
     };
-}
-module.exports = Tools;
+
+    var currentDate = new Date(),
+        year = dateDigitToString(currentDate.getFullYear()),
+        month = dateDigitToString(currentDate.getMonth() + 1),
+        date = dateDigitToString(currentDate.getDate()),
+        hour = dateDigitToString(currentDate.getHours()),
+        minute = dateDigitToString(currentDate.getMinutes()),
+        second = dateDigitToString(currentDate.getSeconds()),
+        formattedDateString = year + '年' + month + '月' + date + '日 ' + hour + ':' + minute + ':' + second;
+
+    return formattedDateString;
+};

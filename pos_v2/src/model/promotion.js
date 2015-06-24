@@ -1,6 +1,4 @@
-function Promotion(type, barcodes, func) {
+function Promotion(type, barcodes) {
     this.type = type;
     this.barcodes = barcodes || [];
-    this.to_reduce_price = func;
 }
-module.exports = Promotion;
