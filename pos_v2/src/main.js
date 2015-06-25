@@ -1,13 +1,12 @@
 function printInventory(collection) {
-    var cart = new Cart();
     var scanner = new Scanner();
+    var cart = new Cart();
 
-    collection.forEach(function(tag, i) {
-        cart.group_by_barcode(scanner.scan(tag));
+    collection.forEach(function(tag) {
+        var temp = scanner.scan(tag);
+        cart.get_cart_item(temp.barcode, temp.count);
     });
 
-    var pos = new Pos();
-    pos.setllement(cart.conclusion);
+    console.log(Pos.print_the_list(cart.cart_items));
 
-    console.log(pos.print_the_list());
 }

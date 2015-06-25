@@ -1,34 +1,25 @@
 var PromotionFunc = (function() {
 
-    function get_reduce_item(item, i) {
-        var result;
+    function get_reduce_count(item) {
+        var count = 0;
         var promotions = loadPromotions();
         barcodes = promotions[0].barcodes;
-        barcodes.forEach(function (element,x) {
+
+        barcodes.forEach(function(element, x) {
             if (item.barcode === element) {
-                result = {
-                    name: item.name,
-                    count: Math.floor(item.count / 3),
-                    unit: item.unit
-                };
+                count = Math.floor(item.count / 3);
             }
         });
 
-        return result;
+        return count;
     }
 
     var PromotionFunc = {};
 
-    PromotionFunc.BUY_TWO_GET_ONE_FREE = function(collection) {
-        var result = [];
-
-        collection.forEach(function (item,i) {
-            var temp = get_reduce_item(item, i);
-            if (temp !== undefined) {
-                result.push(temp);
-                collection[i].sum_price = (item.count - Math.floor(item.count / 3)) * item.price;
-            }
-        });
+    PromotionFunc.BUY_TWO_GET_ONE_FREE = function(cart_item) {
+        var result = {};
+        result.count = get_reduce_count(cart_item);
+        result.price = result.count * cart_item.item.price;
 
         return result;
     };
